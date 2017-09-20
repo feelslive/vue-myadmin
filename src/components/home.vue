@@ -9,9 +9,6 @@
 			</el-input>
 		</div>
 		<div class="single-user">
-		<div class="id">
-			<router-link to="/details">编辑</router-link>
-		</div>
 			<el-table :data="filterUsers" style="width: 100%">
 
 			 	  <el-table-column type="selection" width="55">
@@ -32,12 +29,13 @@
 			        prop="email"
 			        label="邮箱">
 			      </el-table-column>
+
 			      <el-table-column label="操作">
-			         <template scope="scope">
+			         <template scope="scope" v-for="item in users">
 				          <el-button
 				          size="small"
 				          @click="handleEdit(scope.$index, users)">
-					          <router-link :to="'/details/'+scope.id">编辑
+					          <router-link :to="'/details/'+item.id">编辑
 					          </router-link>
 				          </el-button>
 				        <el-button
@@ -47,6 +45,7 @@
 			        </template>
 			      </el-table-column>
     		</el-table>
+
 		</div>
 		
 	</div>
@@ -106,6 +105,7 @@
 	margin: 20px auto;
 	text-align: center;
 	width: 60%;
+
 }
     
 </style>
