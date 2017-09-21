@@ -1,11 +1,24 @@
 <template>
   <div class="hello">
-  <h2>{{msg}}</h2>
+    <h2>{{msg}}</h2>
     <el-menu theme="dark" class="el-menu-demo" mode="horizontal">
-      <el-menu-item index="1"><router-link to='/'>首页</router-link></el-menu-item>
-      <el-menu-item index="2"><router-link to='/About'>关于我们</router-link></el-menu-item>
-      <el-menu-item index="3"><router-link to='/add'>添加用户</router-link></el-menu-item>
+      <router-link to='/'>
+        <el-menu-item index="1">首页</el-menu-item>
+      </router-link>
+      <router-link to='/About'>
+        <el-menu-item index="2">关于我们</el-menu-item>
+      </router-link>
+      <router-link to='/add'>
+        <el-menu-item index="3">添加用户</el-menu-item>
+      </router-link>
+      <el-submenu index="4">
+        <template slot="title">工作台</template>
+        <el-menu-item index="4-1">消息</el-menu-item>
+        <el-menu-item index="4-2">设置</el-menu-item>
+        <el-menu-item index="4-3">退出</el-menu-item>
+      </el-submenu>
     </el-menu>
+    
   </div>
 </template>
 
@@ -44,4 +57,11 @@ li {
     text-decoration:none;
   }
 }
+.el-submenu {
+  float: right;
+}
+.el-submenu .el-menu-item {
+  max-width: 150px !important;
+}
+
 </style>

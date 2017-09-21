@@ -1,5 +1,5 @@
 <template>
-	<div class="home">
+	<div class="home" >
 		<div class="search">
 			<el-input
 			  placeholder="请输入要搜索的内容"
@@ -9,9 +9,8 @@
 			</el-input>
 		</div>
 		<div class="single-user">
-			<el-table :data="filterUsers" style="width: 100%">
-
-			 	  <el-table-column type="selection" width="55">
+			<el-table v-loading="loading" :data="filterUsers" style="width: 100%">
+			 	  <el-table-column type="selection" width="55" >
     			  </el-table-column>
 			      <el-table-column
 			        prop="name"
@@ -31,17 +30,13 @@
 			      </el-table-column>
 
 			      <el-table-column label="操作">
-			         <template scope="scope" v-for="item in users">
-				          <el-button
+			         <template scope="scope">
+				           <router-link :to="'/details/'+users[scope.$index].id" class='detailsbtn'><el-button
 				          size="small"
 				          @click="handleEdit(scope.$index, users)">
-					          <router-link :to="'/details/'+item.id">编辑
-					          </router-link>
-				          </el-button>
-				        <el-button
-				          size="small"
-				          type="danger"
-				          @click.native.prevent="handleDelete(scope.$index, users)">删除</el-button>
+					         详情
+					          
+				          </el-button></router-link>
 			        </template>
 			      </el-table-column>
     		</el-table>
@@ -58,7 +53,8 @@
 		data(){
 			return{
 				search:'',
-				users:[]
+				users:[],
+				loading: true
 			}
 		},
 		created(){
@@ -70,11 +66,13 @@
 				for(let key in data){
 					/*区key做id*/
 					data[key].id = key;
-					 console.log(data[key].id)
 					userArr.unshift(data[key]);
 					
 				}
+				 this.loading= false;
 				 this.users = userArr;
+			},function(err){
+				console.log(err)
 			})
 
 		},
@@ -91,21 +89,26 @@
 			},
 			handleEdit(index, rows) {
 	        	console.log(index, rows);
-		      },
-		    handleDelete(index, rows) {
-		        rows.splice(index, 1);
-		    }
+		      }
 		}
 
 	}
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+.el-loading-mask {
+	top: 235px!important;
+	height: 0!important;
+}
 .search {
 	margin: 20px auto;
 	text-align: center;
 	width: 60%;
 
+}
+
+.detailsbtn {
+	display: block;
 }
     
 </style>

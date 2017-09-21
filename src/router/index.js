@@ -4,6 +4,7 @@ import add from '@/components/add'
 import home from '@/components/home'
 import About from '@/components/About'
 import details from '@/components/details'
+import Edit from '@/components/Edit'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/details/:id',
       name: 'details',
       component: details
+    },
+    {
+      path: '/Edit/:id',
+      name: 'Edit',
+      component: Edit
     }
   ]
 })

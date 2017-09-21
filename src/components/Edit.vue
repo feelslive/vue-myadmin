@@ -1,6 +1,6 @@
 <template>
-	<div class="add">
-	<h3>添加用户</h3>
+	<div class="Edit">
+	<h3>编辑用户</h3>
 		<el-form label-width="80px" ref="numberValidateForm" :model="formLabelAlign" class="demo-ruleForm">
 		  <el-form-item label="姓名" prop="name" :rules="[{ required: true, message: '姓名不能为空'}]">
 		    <el-input v-model="formLabelAlign.name" type="name"></el-input>
@@ -15,15 +15,14 @@
 		    <el-input v-model="formLabelAlign.email" type="email"></el-input>
 		  </el-form-item>
 		  <el-form-item>
-			<el-button type="primary" @click.prevent="submitForm('numberValidateForm')">提交</el-button>
-	    	<el-button @click.prevent="resetForm('numberValidateForm')">重置</el-button>
+			<el-button type="primary" @click.prevent="updateSubmitForm('numberValidateForm')">保存</el-button>
     	  </el-form-item>
 		</el-form>
 	</div>
 </template>
-<script>
+
+<script >
 	export default {
-		name:'add',
 		data(){
 			return {
 				formLabelAlign: {
@@ -31,20 +30,29 @@
 		          region: '',
 		          phoen: '',
 		          email: ''
-		        }
+		        },
+		        id:this.$route.params.id,
 			}
 		},
+		created(){
+			this.fetchForm(this.$route.params.id)
+		},
 		methods:{
+			fetchForm(id){
+				this.$http.get("https://admin-ecccf.firebaseio.com/posts/"+ id + ".json").then(function(data){
+					// console.log(data.body)
+					this.formLabelAlign = data.body
+				})
+			},
 			/*提交信息*/
-			submitForm(formName){
+			updateSubmitForm(formName){
 				this.$refs[formName].validate((valid) => {
 		          if (valid) {
-				      this.$http.post("https://admin-ecccf.firebaseio.com/posts.json",this.formLabelAlign)
+				      this.$http.put("https://admin-ecccf.firebaseio.com/posts/"+this.$route.params.id+".json",this.formLabelAlign)
 				          .then(function(data){
-				            console.log(data);
+				            // console.log(data);
 				            this.success();
 				            this.$router.push({path:'/'})
-				            // this.formkong();
 				          });
 		          } else {
 		            console.log('error submit!!');
@@ -52,30 +60,20 @@
 		          }
 		        });
 			},
-			/*重置*/
-			resetForm(formName){
-				 // console.log(this.$refs[formName])
-				 this.$refs[formName].resetFields();
-			
-			},
-			/*清空数据*/
-			formkong(){
-				this.formLabelAlign = '';
-			},
 			/*添加成功*/
 			success() {
 		        this.$message({
-		          message: '添加成功',
+		          message: '更新成功',
 		          type: 'success'
 		        });
 		    }
 		}
 
 	}
-	
 </script>
+
 <style lang="less" scoped>
-.add {
+    .Edit {
 	width: 80%;
 	margin: 0 auto;
 	&>h3 {
