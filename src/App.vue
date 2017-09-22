@@ -5,7 +5,6 @@
     <div class="centent">
       <router-view></router-view>
     </div>
-    
   </div>
 </template>
 
